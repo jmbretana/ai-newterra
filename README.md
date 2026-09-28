@@ -2,6 +2,8 @@
 
 Business operations platform for managing clients, budgets, accounts, providers, stock, and PDF reports.
 
+Business rules (glossary, balances, budgets, portal): [docs/NEGOCIO.md](docs/NEGOCIO.md).
+
 ## Structure
 
 This repo is a monorepo shell containing two git submodules:
@@ -45,12 +47,12 @@ npm run lint
 ```bash
 cd src/backend
 npm install
-npm run demon      # nodemon dev (port 3001)
+npm run demon      # nodemon dev (port 3101, via PORT in .env)
 npm test
 npm run lint
 ```
 
-Required environment variables for the backend: `JWT_SECRET`, `MONGODB_URI`. Copy from `.env` (not committed).
+Required environment variables for the backend: `JWT_SECRET`, `MONGODB_URI`, and `PORT=3101` locally (the frontend points to `localhost:3101`). Copy from `.env` (not committed).
 
 ## Architecture
 

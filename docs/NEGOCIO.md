@@ -108,6 +108,7 @@ Al **dar de baja** un presupuesto se marca `fecha_baja` y se borra el evento "cr
 
 Inconsistencias vistas en el código al escribir este documento. No son reglas: son candidatos a bug o a decisión.
 
-- **Estado "Enviado"**: el frontend lo define en `EnumStatusBudget` y lo muestra, pero ningún flujo lo asigna. La entrega se maneja con el flag `enviado`.
-- **Facturación duplicada**: el descuento de stock y el movimiento "Facturado" se ejecutan cada vez que se guarda un presupuesto con `status: "Facturado"`, aunque ya estuviera facturado. Hoy lo evita el frontend, porque deja el presupuesto en solo lectura; el backend no lo controla.
-- **Borrado de NC/ND**: borrar una nota deja su movimiento en la cuenta corriente, así que el saldo no cambia.
+- **Estado "Enviado"** (resuelto): se sacó de `EnumStatusBudget`, porque ningún flujo lo asignaba ni había presupuestos con ese estado en PROD/DESA (28/09/2026). Los estados son `Generado` y `Facturado`; la entrega se maneja con el flag booleano `enviado`.
+- **Facturación duplicada** (resuelto): el descuento de stock y el movimiento "Facturado" corren solo cuando el estado *pasa* a Facturado. Volver a guardar un presupuesto ya facturado no los repite.
+- **Borrado de NC/ND** (resuelto): borrar una nota da de baja su movimiento en la cuenta corriente y el saldo se recalcula. Las notas nuevas quedan vinculadas por `credit_note_id`/`debit_note_id`; para las viejas se busca por cliente + monto + fecha, y si hay más de una coincidencia el movimiento no se toca (queda en el log).
+- **Descarga del catálogo en prod** (resuelto): `GET /catalogs/download` leía un archivo fijo en `public/` que en Netlify no existe (ahí se escribe en `/tmp`) y devolvía siempre 404. Ahora sale del HTML guardado en Mongo, igual que `/catalogo-publico`.

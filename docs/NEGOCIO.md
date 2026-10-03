@@ -40,7 +40,8 @@ Carga manual desde el frontend (`ClientBalanceForm.tsx`):
 
 - **Total** = subtotal A + subtotal V − descuento.
 - **Estados** (`status`):
-  - **Generado**: recién creado, desde el sistema o desde el portal. Se puede editar.
+  - **Borrador**: ingresado por el cliente desde el portal, todavía sin revisar. Se puede editar; el botón **Confirmar** lo pasa a Generado. No se puede facturar hasta confirmarlo (el botón Facturar solo aparece en Generado). En el portal el cliente lo ve como "En revisión". No figura entre los presupuestos Generados de un producto en Stock.
+  - **Generado**: creado desde el sistema, o un Borrador ya confirmado. Se puede editar.
   - **Facturado**: el frontend lo deja en solo lectura.
 - **Entrega**: se registra aparte del estado, con el flag `enviado`. Pasa a `true` cuando el presupuesto se asigna a una distribución, y vuelve a `false` si se la quita.
 
@@ -91,7 +92,7 @@ Al **dar de baja** un presupuesto se marca `fecha_baja` y se borra el evento "cr
   - Muestra solo los productos de las sublistas A y V del cliente, sin incluir los deshabilitados.
   - Si un producto no tiene stock cargado, se puede pedir sin límite. Si tiene, no se puede pedir más de lo disponible.
 - **Pedido**:
-  - Se crea como presupuesto `Generado`, con `channel: "portal"`.
+  - Se crea como presupuesto `Borrador`, con `channel: "portal"`, y se notifica a los administradores activos (notificación `PORTAL_BUDGET` en la campanita, con link al presupuesto).
   - No lleva descuentos y usa los precios de la lista del cliente.
   - Después sigue el circuito normal de presupuestos.
 - **Historial**: el cliente ve sus pedidos de los últimos 6 meses.

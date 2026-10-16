@@ -62,6 +62,9 @@ Browser
          │ Mongoose
          ▼
        MongoDB Atlas
+         ├─ DESA / PROD   datos de New Terra (según NODE_ENV)
+         └─ controlwise   usuarios internos (login), compartida con Controlwise;
+                          New Terra solo usa los de company "newterra"
 ```
 
 The frontend and backend are deployed independently on Netlify. CORS in the backend allows `https://newterra.netlify.app` and localhost dev origins.
